@@ -16,7 +16,9 @@ jobs:
     container: debian:testing-slim
 
     steps:
-    - uses: actions/checkout@v2
+    # Clone this repo
+    - name: Checkout
+      uses: actions/checkout@v2
 
     - name: Configure APT
       env:
