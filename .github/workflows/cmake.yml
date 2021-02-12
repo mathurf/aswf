@@ -17,6 +17,48 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
+    - name: Configure APT
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        # Paper over occasional network flakiness of some mirrors.
+        echo 'Acquire::Retries "10";' > /etc/apt/apt.conf.d/80retry
+        # Do not install recommended packages
+        echo 'APT::Install-Recommends "false";' > /etc/apt/apt.conf.d/80recommends
+        # Do not install suggested packages
+        echo 'APT::Install-Suggests "false";' > /etc/apt/apt.conf.d/80suggests
+        # Assume yes
+        echo 'APT::Get::Assume-Yes "true";' > /etc/apt/apt.conf.d/80forceyes
+        # Fix broken packages
+        echo 'APT::Get::Fix-Missing "true";' > /etc/apt/apt.conf.d/80fixmissing
+
+    - name: Install Dependencies
+      run: |
+        rm -rf /var/lib/apt/lists/*;
+        apt-get update;
+        apt-get install clang++-10 \
+                        clang-tidy-10 \
+                        clang-tools-10 \
+                        cmake \
+                        curl \
+                        doxygen \
+                        g++-10 \
+                        git \
+                        googletest \
+                        graphviz \
+                        libc++-10-dev \
+                        libjpeg-dev \
+                        libomp-10-dev \
+                        libpugixml-dev \
+                        libxml2-utils \
+                        make \
+                        ninja-build \
+                        python3-sphinx \
+                        python3-sphinx-rtd-theme \
+                        rsync \
+                        unzip \
+                        zlib1g-dev;
+
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
       # We'll use this as our working directory for all subsequent commands
