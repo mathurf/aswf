@@ -37,28 +37,20 @@ jobs:
       run: |
         rm -rf /var/lib/apt/lists/*;
         apt-get update;
-        apt-get install clang++-10 \
-                        clang-tidy-10 \
-                        clang-tools-10 \
+        apt-get install clang++-11 \
+                        clang-tidy-11 \
+                        clang-tools-11 \
                         cmake \
                         curl \
                         doxygen \
-                        g++-10 \
+                        g++ \
+                        gcc \
                         git \
                         googletest \
                         graphviz \
-                        libc++-10-dev \
-                        libjpeg-dev \
-                        libomp-10-dev \
-                        libpugixml-dev \
-                        libxml2-utils \
                         make \
-                        ninja-build \
                         python3-sphinx \
-                        python3-sphinx-rtd-theme \
-                        rsync \
-                        unzip \
-                        zlib1g-dev;
+                        python3-sphinx-rtd-theme;
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
